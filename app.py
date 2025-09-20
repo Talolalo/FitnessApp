@@ -73,7 +73,7 @@ tab1, tab2, tab3 = st.tabs(["Entrenamiento", "Historial", "Personalización"])
 
 # ----------- TAB 1: Entrenamiento -----------
 with tab1:
-    opcion = st.radio("Elige tu entrenamiento:", list(rutinas.keys()))
+    opcion = st.radio("Elige tu entrenamiento:", list(rutinas.keys()), key="radio_entrenamiento")
     estado = st.session_state.estado[opcion]
 
     st.subheader("Ejercicios pendientes")
@@ -106,60 +106,40 @@ with tab2:
 # ----------- TAB 3: Personalización -----------
 with tab3:
     st.subheader("Modificar o crear ejercicios y rutinas")
-    accion = st.selectbox("Acción:", ["Agregar ejercicio", "Editar ejercicio", "Crear nueva rutina"])
+    accion = st.selectbox("Acción:", ["Agregar ejercicio", "Editar ejercicio", "Crear nueva rutina"], key="accion_personalizacion")
 
     if accion == "Agregar ejercicio":
-        rutina_sel = st.selectbox("Selecciona rutina:", list(rutinas.keys()))
-        nombre = st.text_input("Nombre del ejercicio")
-        kg = st.number_input("Peso (kg)", min_value=0.0)
-        maquina = st.text_input("Máquina")
-        ajustes = st.text_input("Ajustes")
-        if st.button("Agregar"):
+        rutina_sel = st.selectbox("Selecciona rutina:", list(rutinas.keys()), key="add_rutina")
+        nombre = st.text_input("Nombre del ejercicio", key="add_nombre")
+        kg = st.number_input("Peso (kg)", min_value=0.0, key="add_kg")
+        maquina = st.text_input("Máquina", key="add_maquina")
+        ajustes = st.text_input("Ajustes", key="add_ajustes")
+        if st.button("Agregar ejercicio", key="boton_add"):
             rutinas[rutina_sel].append([nombre, kg, maquina, ajustes])
             guardar_rutinas()
             st.success("Ejercicio agregado!")
 
     elif accion == "Editar ejercicio":
-        rutina_sel = st.selectbox("Selecciona rutina:", list(rutinas.keys()))
         st.subheader("Editar ejercicio")
-        # Seleccionar rutina
-        rutina_sel = st.selectbox("Selecciona rutina:", list(rutinas.keys()))
-        
-        # Lista de nombres de ejercicios para la rutina seleccionada
+        rutina_sel = st.selectbox("Selecciona rutina:", list(rutinas.keys()), key="edit_rutina")
         nombres_ejercicios = [e[0] for e in rutinas[rutina_sel]]
-        
-        # Selectbox que muestra los nombres actuales
-        ejercicio_seleccionado = st.selectbox("Selecciona ejercicio a modificar:", nombres_ejercicios)
-        
-        # Obtener el índice del ejercicio seleccionado
+        ejercicio_seleccionado = st.selectbox("Selecciona ejercicio a modificar:", nombres_ejercicios, key="edit_ejercicio")
         ejercicio_idx = nombres_ejercicios.index(ejercicio_seleccionado)
-        
-        # Inputs para editar los valores actuales
-        nuevo_nombre = st.text_input("Nombre del ejercicio:", rutinas[rutina_sel][ejercicio_idx][0])
-        nuevo_peso = st.number_input("Peso (kg):", value=rutinas[rutina_sel][ejercicio_idx][1])
-        nuevo_maquina = st.text_input("Máquina:", rutinas[rutina_sel][ejercicio_idx][2])
-        nueva_config = st.text_input("Configuración:", rutinas[rutina_sel][ejercicio_idx][3])
-        
-        # Botón para guardar cambios
-        if st.button("Guardar cambios"):
+
+        # Inputs para editar valores
+        nuevo_nombre = st.text_input("Nombre del ejercicio:", rutinas[rutina_sel][ejercicio_idx][0], key="input_nombre")
+        nuevo_peso = st.number_input("Peso (kg):", value=rutinas[rutina_sel][ejercicio_idx][1], key="input_peso")
+        nuevo_maquina = st.text_input("Máquina:", rutinas[rutina_sel][ejercicio_idx][2], key="input_maquina")
+        nueva_config = st.text_input("Configuración:", rutinas[rutina_sel][ejercicio_idx][3], key="input_config")
+
+        if st.button("Guardar cambios", key="boton_guardar"):
             rutinas[rutina_sel][ejercicio_idx] = [nuevo_nombre, nuevo_peso, nuevo_maquina, nueva_config]
-            with open("rutinas.json", "w") as f:
-                json.dump(rutinas, f, indent=4)
+            guardar_rutinas()
             st.success("Ejercicio actualizado correctamente!")
 
-        e = rutinas[rutina_sel][ejercicio_idx]
-        nombre = st.text_input("Nombre del ejercicio", value=e[0])
-        kg = st.number_input("Peso (kg)", min_value=0.0, value=float(e[1]))
-        maquina = st.text_input("Máquina", value=e[2])
-        ajustes = st.text_input("Ajustes", value=e[3])
-        if st.button("Guardar cambios"):
-            rutinas[rutina_sel][ejercicio_idx] = [nombre, kg, maquina, ajustes]
-            guardar_rutinas()
-            st.success("Cambios guardados!")
-
     elif accion == "Crear nueva rutina":
-        nueva_rutina = st.text_input("Nombre de la nueva rutina")
-        if st.button("Crear"):
+        nueva_rutina = st.text_input("Nombre de la nueva rutina", key="nueva_rutina")
+        if st.button("Crear rutina", key="boton_crear_rutina"):
             if nueva_rutina and nueva_rutina not in rutinas:
                 rutinas[nueva_rutina] = []
                 guardar_rutinas()
