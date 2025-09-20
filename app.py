@@ -121,14 +121,31 @@ with tab3:
 
     elif accion == "Editar ejercicio":
         rutina_sel = st.selectbox("Selecciona rutina:", list(rutinas.keys()))
-        # Lista de nombres de ejercicios
+        st.subheader("Editar ejercicio")
+        # Seleccionar rutina
+        rutina_sel = st.selectbox("Selecciona rutina:", list(rutinas.keys()))
+        
+        # Lista de nombres de ejercicios para la rutina seleccionada
         nombres_ejercicios = [e[0] for e in rutinas[rutina_sel]]
         
-        # Selectbox con nombres en vez de números
-        ejercicio_seleccionado = st.selectbox("Selecciona ejercicio:", nombres_ejercicios)
+        # Selectbox que muestra los nombres actuales
+        ejercicio_seleccionado = st.selectbox("Selecciona ejercicio a modificar:", nombres_ejercicios)
         
         # Obtener el índice del ejercicio seleccionado
         ejercicio_idx = nombres_ejercicios.index(ejercicio_seleccionado)
+        
+        # Inputs para editar los valores actuales
+        nuevo_nombre = st.text_input("Nombre del ejercicio:", rutinas[rutina_sel][ejercicio_idx][0])
+        nuevo_peso = st.number_input("Peso (kg):", value=rutinas[rutina_sel][ejercicio_idx][1])
+        nuevo_maquina = st.text_input("Máquina:", rutinas[rutina_sel][ejercicio_idx][2])
+        nueva_config = st.text_input("Configuración:", rutinas[rutina_sel][ejercicio_idx][3])
+        
+        # Botón para guardar cambios
+        if st.button("Guardar cambios"):
+            rutinas[rutina_sel][ejercicio_idx] = [nuevo_nombre, nuevo_peso, nuevo_maquina, nueva_config]
+            with open("rutinas.json", "w") as f:
+                json.dump(rutinas, f, indent=4)
+            st.success("Ejercicio actualizado correctamente!")
 
         e = rutinas[rutina_sel][ejercicio_idx]
         nombre = st.text_input("Nombre del ejercicio", value=e[0])
