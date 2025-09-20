@@ -121,7 +121,15 @@ with tab3:
 
     elif accion == "Editar ejercicio":
         rutina_sel = st.selectbox("Selecciona rutina:", list(rutinas.keys()))
-        ejercicio_idx = st.selectbox("Selecciona ejercicio:", list(range(len(rutinas[rutina_sel]))))
+        # Lista de nombres de ejercicios
+        nombres_ejercicios = [e[0] for e in rutinas[rutina_sel]]
+        
+        # Selectbox con nombres en vez de números
+        ejercicio_seleccionado = st.selectbox("Selecciona ejercicio:", nombres_ejercicios)
+        
+        # Obtener el índice del ejercicio seleccionado
+        ejercicio_idx = nombres_ejercicios.index(ejercicio_seleccionado)
+
         e = rutinas[rutina_sel][ejercicio_idx]
         nombre = st.text_input("Nombre del ejercicio", value=e[0])
         kg = st.number_input("Peso (kg)", min_value=0.0, value=float(e[1]))
