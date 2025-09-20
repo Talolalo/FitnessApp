@@ -1,0 +1,23 @@
+{
+    "A": [
+        ["Chest Press", 32, "Maquina 20", "Asiento: 3; Respaldo: 3"],
+        ["Pectoral Fly", 39, "Maquina 26", "Asiento: 3"],
+        ["Tríceps Polea", 14.7, "Maquina 62", ""],
+        ["Abdominal Maquina", 32, "Maquina 40", "Asiento: 3"],
+        ["Dip Chin", 32, "", ""]
+    ],
+    "B": [
+        ["Press Militar Maquina", 18, "Maquina 50", ""],
+        ["Seated Leg Curl", 38, "Maquina 3", ""],
+        ["Leg Extension", 36, "Maquina 2", ""],
+        ["Abductor de Cadera", 50, "Maquina 4", ""],
+        ["Adductor de Cadera", 45, "", "Maquina"]
+    ],
+    "C": [
+        ["Leg Press", 63, "Maquina 1", ""],
+        ["Remada Maquina Agarre Neutro", 36, "Maquina 30", ""],
+        ["Vuelo Posterior Alternado Maquina", 32, "Maquina 26", ""],
+        ["Curl Bíceps con Mancuerna", 14, "", ""],
+        ["Lumbar Maquina", 63, "Maquina 43", ""]
+    ]
+}
